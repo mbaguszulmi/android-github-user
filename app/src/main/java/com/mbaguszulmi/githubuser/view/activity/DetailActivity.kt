@@ -1,18 +1,14 @@
 package com.mbaguszulmi.githubuser.view.activity
 
 import android.content.Intent
-import android.icu.text.CompactDecimalFormat
-import android.icu.text.DecimalFormat
-import android.icu.text.NumberFormat
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.mbaguszulmi.githubuser.R
 import com.mbaguszulmi.githubuser.model.GithubUser
 import com.mbaguszulmi.githubuser.model.getUrl
-
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlin.math.round
 
