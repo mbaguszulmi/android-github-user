@@ -84,7 +84,7 @@ object GithubUsersData {
         val list = ArrayList<GithubUser>();
         for (position in names.indices) {
             val user = GithubUser(names[position], usernames[position], repoCounts[position],
-                followers[position], followings[position], avatarUrls[position])
+                followers[position], followings[position], "Lorem ipsum dolor sit amet", avatarUrls[position])
             list.add(user)
         }
         return list

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mbaguszulmi.githubuser.R
 import com.mbaguszulmi.githubuser.model.GithubUser
 
@@ -42,6 +43,9 @@ class GithubUserListAdapter(private val githubUsers: List<GithubUser>)
             val username = "@" + user.username;
             itemView.tv_full_name.text = user.name
             itemView.tv_username.text = username;
+            Glide.with(itemView)
+                .load(user.avatarUrl)
+                .into(itemView.iv_avatar)
         }
     }
 

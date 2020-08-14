@@ -9,6 +9,7 @@ data class GithubUser(
     val repoCount: Int,
     val followers: Int,
     val following: Int,
+    val bio: String?,
     val avatarUrl: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -17,6 +18,7 @@ data class GithubUser(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
+        parcel.readString(),
         parcel.readString()
     ) {
     }
@@ -27,6 +29,7 @@ data class GithubUser(
         parcel.writeInt(repoCount)
         parcel.writeInt(followers)
         parcel.writeInt(following)
+        parcel.writeString(bio)
         parcel.writeString(avatarUrl)
     }
 
