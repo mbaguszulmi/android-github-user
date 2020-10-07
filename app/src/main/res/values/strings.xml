@@ -8,4 +8,7 @@
     <string name="repository">Repository</string>
     <string name="visit_on_github">Visit on Github</string>
     <string name="description">Description</string>
+    <string name="search">Search</string>
+    <string name="change_language">Change Language</string>
+    <string name="find_users">Find users...</string>
 </resources>
