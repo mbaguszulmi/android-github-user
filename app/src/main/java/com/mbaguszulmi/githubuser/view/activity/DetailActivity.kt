@@ -2,10 +2,10 @@ package com.mbaguszulmi.githubuser.view.activity
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -17,11 +17,7 @@ import com.mbaguszulmi.githubuser.view.adapter.DetailFollowAdapter
 import com.mbaguszulmi.githubuser.view.fragment.FollowersFragment
 import com.mbaguszulmi.githubuser.view.fragment.FollowingFragment
 import com.mbaguszulmi.githubuser.viewmodel.MainViewModel
-
 import kotlinx.android.synthetic.main.activity_detail.*
-import java.math.BigDecimal
-import java.math.RoundingMode
-import java.util.*
 import kotlin.math.round
 
 class DetailActivity : AppCompatActivity() {

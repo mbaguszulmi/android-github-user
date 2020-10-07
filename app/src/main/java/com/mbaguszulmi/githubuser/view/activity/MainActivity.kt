@@ -3,12 +3,12 @@ package com.mbaguszulmi.githubuser.view.activity
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +17,6 @@ import com.mbaguszulmi.githubuser.R
 import com.mbaguszulmi.githubuser.model.GithubUser
 import com.mbaguszulmi.githubuser.view.adapter.GithubUserListAdapter
 import com.mbaguszulmi.githubuser.viewmodel.MainViewModel
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

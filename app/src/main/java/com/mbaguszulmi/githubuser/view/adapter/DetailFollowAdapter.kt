@@ -1,10 +1,9 @@
 package com.mbaguszulmi.githubuser.view.adapter
 
 import android.content.Context
-import androidx.annotation.StringRes
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.mbaguszulmi.githubuser.R
 
 class DetailFollowAdapter(private val context: Context, fa: FragmentActivity,
                             private val items: Array<Fragment>):
