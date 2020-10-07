@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Github User</string>
+    <string name="full_name">Nama Lengkap</string>
+    <string name="username">username</string>
+    <string name="following">Mengikuti</string>
+    <string name="test_num_value">10</string>
+    <string name="followers">Pengikut</string>
+    <string name="repository">Repositori</string>
+    <string name="visit_on_github">Lihat di Github</string>
+    <string name="description">Deskripsi</string>
+    <string name="search">Cari</string>
+    <string name="change_language">Ubah Bahasa</string>
+    <string name="find_users">Cari Pengguna…</string>
+    <string name="tab_followers">Pengikut</string>
+    <string name="tab_following">Mengikuti</string>
+    <string name="username_content">\@%1$s</string>
+</resources>

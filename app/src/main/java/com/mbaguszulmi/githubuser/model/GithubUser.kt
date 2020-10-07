@@ -2,14 +2,18 @@ package com.mbaguszulmi.githubuser.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
 data class GithubUser(
-    val name: String?,
+    var name: String?,
+    @SerializedName("login")
     val username: String?,
-    val repoCount: Int,
-    val followers: Int,
-    val following: Int,
-    val bio: String?,
+    @SerializedName("public_repos")
+    var repoCount: Int = 0,
+    var followers: Int = 0,
+    var following: Int = 0,
+    val bio: String? = "",
+    @SerializedName("avatar_url")
     val avatarUrl: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -21,6 +25,9 @@ data class GithubUser(
         parcel.readString(),
         parcel.readString()
     ) {
+        if (name == null || name!!.isEmpty()) {
+            name = username
+        }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
