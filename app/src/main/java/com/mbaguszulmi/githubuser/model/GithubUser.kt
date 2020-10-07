@@ -8,9 +8,10 @@ data class GithubUser(
     var name: String?,
     @SerializedName("login")
     val username: String?,
-    val repoCount: Int = 0,
-    val followers: Int = 0,
-    val following: Int = 0,
+    @SerializedName("public_repos")
+    var repoCount: Int = 0,
+    var followers: Int = 0,
+    var following: Int = 0,
     val bio: String? = "",
     @SerializedName("avatar_url")
     val avatarUrl: String?

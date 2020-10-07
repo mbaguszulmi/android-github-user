@@ -13,21 +13,27 @@ import retrofit2.Response
 
 class MainViewModel : ViewModel() {
     private val isLoadingUsers = MutableLiveData<Boolean>()
-    private val isLoadingFollowers = MutableLiveData<Boolean>()
-    private val isLoadingFollowing = MutableLiveData<Boolean>()
+    private var isLoadingFollowers = false
+    private var isLoadingFollowing = false
+    private var isLoadingUser = false
+    private val isLoadingDetail = MutableLiveData<Boolean>()
     private val query = MutableLiveData<String>()
     private val githubAPI = GithubAPI()
     private val users = MutableLiveData<MutableList<GithubUser>>()
+    private val user = MutableLiveData<GithubUser>()
+    private val followers = MutableLiveData<MutableList<GithubUser>>()
+    private val following = MutableLiveData<MutableList<GithubUser>>()
 
     fun init() {
-        isLoadingUsers.value = true
-        isLoadingFollowers.value = true
-        isLoadingFollowing.value = true
+        isLoadingUsers.value = false
+        updateLoadingDetail()
         users.value = ArrayList()
+        followers.value = ArrayList()
+        following.value = ArrayList()
         query.value = ""
     }
 
-    fun getAllUsers() {
+    fun fetchAllUsers() {
         setLoadingUsers(true)
 
         val q = query.value
@@ -71,7 +77,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun getFullNameUser(adapter: GithubUserListAdapter, user: GithubUser, position: Int) {
+    fun fetchFullNameUser(adapter: GithubUserListAdapter, user: GithubUser, position: Int) {
         user.username?.let {
             githubAPI.getService().getUser(it).enqueue(object: Callback<GithubUser> {
                 override fun onResponse(call: Call<GithubUser>, response: Response<GithubUser>) {
@@ -89,51 +95,100 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun getFollowers() : List<GithubUser> {
-        var githubUsers: List<GithubUser> = ArrayList<GithubUser>()
+    fun fetchFollowers(username: String) {
+        isLoadingFollowers = true
+        updateLoadingDetail()
+        githubAPI.getService().getFollowers(username).enqueue(object : Callback<List<GithubUser>> {
+            override fun onResponse(
+                call: Call<List<GithubUser>>,
+                response: Response<List<GithubUser>>
+            ) {
+                isLoadingFollowers = false
+                updateLoadingDetail()
+                if (response.isSuccessful) {
+                    val list = response.body()
+                    followers.value = list?.toMutableList()
+                }
+            }
 
-        return githubUsers
+            override fun onFailure(call: Call<List<GithubUser>>, t: Throwable) {
+                isLoadingFollowers = false
+                updateLoadingDetail()
+            }
+        })
     }
 
-    fun getFollowing() : List<GithubUser> {
-        var githubUsers: List<GithubUser> = ArrayList<GithubUser>()
+    fun fetchFollowing(username: String) {
+        isLoadingFollowing = true
+        updateLoadingDetail()
+        githubAPI.getService().getFollowing(username).enqueue(object : Callback<List<GithubUser>> {
+            override fun onResponse(
+                call: Call<List<GithubUser>>,
+                response: Response<List<GithubUser>>
+            ) {
+                isLoadingFollowing = false
+                updateLoadingDetail()
+                if (response.isSuccessful) {
+                    val list = response.body()
+                    following.value = list?.toMutableList()
+                }
+            }
 
-        return githubUsers
+            override fun onFailure(call: Call<List<GithubUser>>, t: Throwable) {
+                isLoadingFollowing = false
+                updateLoadingDetail()
+            }
+        })
+    }
+
+    fun fetchUser(username: String) {
+        isLoadingUser = true
+        updateLoadingDetail()
+        githubAPI.getService().getUser(username).enqueue(object : Callback<GithubUser> {
+            override fun onResponse(call: Call<GithubUser>, response: Response<GithubUser>) {
+                isLoadingUser = false
+                updateLoadingDetail()
+                if (response.isSuccessful) {
+                    user.value = response.body()
+                    fetchFollowers(username)
+                    fetchFollowing(username)
+                }
+            }
+
+            override fun onFailure(call: Call<GithubUser>, t: Throwable) {
+                isLoadingUser = false
+                updateLoadingDetail()
+            }
+        })
     }
 
     fun setLoadingUsers(loading: Boolean) {
         isLoadingUsers.value = loading
     }
 
-    fun setLoadingFollowers(loading: Boolean) {
-        isLoadingFollowers.value = loading
-    }
+    fun isLoadingUsersLiveData() : LiveData<Boolean> = isLoadingUsers
 
-    fun setLoadingFollowing(loading: Boolean) {
-        isLoadingFollowing.value = loading
-    }
+    fun isLoadingDetailLiveData() : LiveData<Boolean> = isLoadingDetail
 
-    fun isLoadingUsersLiveData() : LiveData<Boolean> {
-        return isLoadingUsers
-    }
-
-    fun isLoadingFollowersLiveData() : LiveData<Boolean> {
-        return isLoadingFollowers
-    }
-
-    fun isLoadingFollowingLiveData() : LiveData<Boolean> {
-        return isLoadingFollowing
-    }
-
-    fun getUserListLiveData(): LiveData<MutableList<GithubUser>> {
-        return users
-    }
+    fun getUserListLiveData(): LiveData<MutableList<GithubUser>> = users
 
     fun setQuery(q: String) {
         query.value = q
     }
 
-    fun getQueryLiveData(): LiveData<String> {
-        return query
+    fun getQueryLiveData(): LiveData<String> = query
+
+    fun getFollowersLiveData(): LiveData<MutableList<GithubUser>> = followers
+
+    fun getFollowingLiveData(): LiveData<MutableList<GithubUser>> = following
+
+    fun updateLoadingDetail() {
+        isLoadingDetail.value = isLoadingUser || isLoadingFollowers || isLoadingFollowing
+    }
+
+    fun getUserLiveData(): LiveData<GithubUser> = user
+
+    fun setUser(user: GithubUser) {
+        this.user.value = user
     }
 }

@@ -10,5 +10,8 @@
     <string name="description">Description</string>
     <string name="search">Search</string>
     <string name="change_language">Change Language</string>
-    <string name="find_users">Find users...</string>
+    <string name="find_users">Find users…</string>
+    <string name="tab_followers">Followers</string>
+    <string name="tab_following">Following</string>
+    <string name="username_content">\@%1$s</string>
 </resources>

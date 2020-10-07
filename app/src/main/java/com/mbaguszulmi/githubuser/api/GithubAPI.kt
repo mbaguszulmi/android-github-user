@@ -1,6 +1,7 @@
 package com.mbaguszulmi.githubuser.api
 
 import com.mbaguszulmi.githubuser.model.GithubUser
+import com.mbaguszulmi.githubuser.model.network.ReposResponse
 import com.mbaguszulmi.githubuser.model.network.UserSearchResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,7 +21,7 @@ class GithubAPI {
             .addInterceptor(logging)
             .addInterceptor { chain ->
                 val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "token bc7c4badd465efa9d739e54040a11469226d525c")
+                    .addHeader("Authorization", "token d3a86f3535707d842dc5c3a4586b1fccf51e1bca")
                 .build()
                 chain.proceed(newRequest)
             }
@@ -46,5 +47,14 @@ class GithubAPI {
 
         @GET("users/{username}")
         fun getUser(@Path("username") username: String): Call<GithubUser>
+
+        @GET("users/{username}/followers")
+        fun getFollowers(@Path("username") username: String): Call<List<GithubUser>>
+
+        @GET("users/{username}/following")
+        fun getFollowing(@Path("username") username: String): Call<List<GithubUser>>
+
+        @GET("users/{username}/repos")
+        fun getRepos(@Path("username") username: String): Call<List<ReposResponse>>
     }
 }

@@ -41,10 +41,10 @@ class MainActivity : AppCompatActivity() {
     private fun initView() {
         initAdapter()
 
-        mainViewModel.getAllUsers()
+        mainViewModel.fetchAllUsers()
 
         srl_main.setOnRefreshListener {
-            mainViewModel.getAllUsers()
+            mainViewModel.fetchAllUsers()
         }
 
         mainViewModel.getUserListLiveData().observe(this, Observer {
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.getQueryLiveData().observe(this, Observer {
             Log.d(TAG, "Update data $it")
-            mainViewModel.getAllUsers()
+            mainViewModel.fetchAllUsers()
         })
     }
 

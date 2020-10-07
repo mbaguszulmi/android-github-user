@@ -1,6 +1,5 @@
 package com.mbaguszulmi.githubuser.view.adapter
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +56,7 @@ class GithubUserListAdapter(
             onItemClickListener.onItemClick(user)
         }
 
-        if (user.name == null) mainViewModel.getFullNameUser(this, user, position)
+        if (user.name == null) mainViewModel.fetchFullNameUser(this, user, position)
     }
 
     class ViewHolder(itemView: View) :
