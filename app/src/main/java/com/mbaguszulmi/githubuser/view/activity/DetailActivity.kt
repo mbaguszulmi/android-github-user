@@ -21,6 +21,7 @@ import com.mbaguszulmi.githubuser.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.util.*
 import kotlin.math.round
 
 class DetailActivity : AppCompatActivity() {
@@ -43,7 +44,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun Double.round(decimals: Int): Double {
-        return "%.${decimals}f".format(this).toDouble()
+        var multiplier = 1.0
+        repeat(decimals) { multiplier *= 10 }
+        return round(this * multiplier) / multiplier
     }
 
     private fun getCompactNumber(n: Int) : String {
