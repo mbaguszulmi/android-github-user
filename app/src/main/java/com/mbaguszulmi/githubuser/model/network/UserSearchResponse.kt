@@ -1,7 +1,7 @@
 package com.mbaguszulmi.githubuser.model.network
 
 import com.google.gson.annotations.SerializedName
-import com.mbaguszulmi.githubuser.model.GithubUser
+import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 
 data class UserSearchResponse(
     @SerializedName("total_count")

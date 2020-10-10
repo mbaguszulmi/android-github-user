@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mbaguszulmi.githubuser.api.GithubAPI
-import com.mbaguszulmi.githubuser.model.GithubUser
+import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 import com.mbaguszulmi.githubuser.model.network.UserSearchResponse
 import com.mbaguszulmi.githubuser.view.adapter.GithubUserListAdapter
 import retrofit2.Call

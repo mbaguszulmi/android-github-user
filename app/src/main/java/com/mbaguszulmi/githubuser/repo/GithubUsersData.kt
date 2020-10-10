@@ -1,6 +1,6 @@
 package com.mbaguszulmi.githubuser.repo
 
-import com.mbaguszulmi.githubuser.model.GithubUser
+import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 
 object GithubUsersData {
     private val names = arrayOf(

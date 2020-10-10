@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mbaguszulmi.githubuser.R
-import com.mbaguszulmi.githubuser.model.GithubUser
+import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 import com.mbaguszulmi.githubuser.view.activity.DetailActivity
 import com.mbaguszulmi.githubuser.view.adapter.GithubUserListAdapter
 import com.mbaguszulmi.githubuser.viewmodel.MainViewModel

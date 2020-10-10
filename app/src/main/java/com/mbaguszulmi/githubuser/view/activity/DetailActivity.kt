@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mbaguszulmi.githubuser.R
-import com.mbaguszulmi.githubuser.model.GithubUser
-import com.mbaguszulmi.githubuser.model.getUrl
+import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
+import com.mbaguszulmi.githubuser.model.database.entities.getUrl
 import com.mbaguszulmi.githubuser.view.adapter.DetailFollowAdapter
 import com.mbaguszulmi.githubuser.view.fragment.FollowersFragment
 import com.mbaguszulmi.githubuser.view.fragment.FollowingFragment

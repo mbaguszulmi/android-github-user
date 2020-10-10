@@ -1,6 +1,6 @@
 package com.mbaguszulmi.githubuser.api
 
-import com.mbaguszulmi.githubuser.model.GithubUser
+import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 import com.mbaguszulmi.githubuser.model.network.ReposResponse
 import com.mbaguszulmi.githubuser.model.network.UserSearchResponse
 import okhttp3.OkHttpClient

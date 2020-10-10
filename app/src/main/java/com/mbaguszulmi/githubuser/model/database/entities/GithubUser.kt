@@ -1,22 +1,32 @@
-package com.mbaguszulmi.githubuser.model
+package com.mbaguszulmi.githubuser.model.database.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "github_user")
 data class GithubUser(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
     var name: String?,
     @SerializedName("login")
     val username: String?,
     @SerializedName("public_repos")
+    @ColumnInfo(name = "repo_count")
     var repoCount: Int = 0,
     var followers: Int = 0,
     var following: Int = 0,
     val bio: String? = "",
     @SerializedName("avatar_url")
-    val avatarUrl: String?
+    @ColumnInfo(name = "avatar_url")
+    val avatarUrl: String?,
+    val favorite: Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString(),
         parcel.readString(),
         parcel.readInt(),

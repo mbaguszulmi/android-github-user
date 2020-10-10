@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mbaguszulmi.githubuser.R
-import com.mbaguszulmi.githubuser.model.GithubUser
+import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 import com.mbaguszulmi.githubuser.viewmodel.MainViewModel
 
 import kotlinx.android.synthetic.main.itemview_github_users.view.*
