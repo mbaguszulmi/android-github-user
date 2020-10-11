@@ -2,6 +2,7 @@ package com.mbaguszulmi.githubuser.model.database.entities
 
 import android.content.ContentValues
 import android.database.Cursor
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.content.contentValuesOf
@@ -67,6 +68,13 @@ data class GithubUser(
         const val KEY_BIO = "bio"
         const val KEY_AVATAR_URL = "avatar_url"
         const val KEY_FAVORITE = "favorite"
+        const val AUTHORITY = "com.mbaguszulmi.githubuser"
+        const val TABLE_NAME = "github_user"
+        const val SCHEME = "content"
+        val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
+            .authority(AUTHORITY)
+            .appendPath(TABLE_NAME)
+            .build()
 
         override fun createFromParcel(parcel: Parcel): GithubUser {
             return GithubUser(parcel)
@@ -74,6 +82,41 @@ data class GithubUser(
 
         override fun newArray(size: Int): Array<GithubUser?> {
             return arrayOfNulls(size)
+        }
+
+        fun fromContentValues(contentValues: ContentValues?): GithubUser {
+            val githubUser = GithubUser(0, null, null, 0, 0, 0, null, null, false)
+
+            if (contentValues == null) return githubUser
+
+            if (contentValues.containsKey(KEY_ID))
+                githubUser.id = contentValues.getAsInteger(KEY_ID)
+
+            if (contentValues.containsKey(KEY_NAME))
+                githubUser.name = contentValues.getAsString(KEY_NAME)
+
+            if (contentValues.containsKey(KEY_USERNAME))
+                githubUser.username = contentValues.getAsString(KEY_USERNAME)
+
+            if (contentValues.containsKey(KEY_REPO_COUNT))
+                githubUser.repoCount = contentValues.getAsInteger(KEY_REPO_COUNT)
+
+            if (contentValues.containsKey(KEY_FOLLOWERS))
+                githubUser.followers = contentValues.getAsInteger(KEY_FOLLOWERS)
+
+            if (contentValues.containsKey(KEY_FOLLOWING))
+                githubUser.following = contentValues.getAsInteger(KEY_FOLLOWING)
+
+            if (contentValues.containsKey(KEY_BIO))
+                githubUser.bio = contentValues.getAsString(KEY_BIO)
+
+            if (contentValues.containsKey(KEY_AVATAR_URL))
+                githubUser.avatarUrl = contentValues.getAsString(KEY_AVATAR_URL)
+
+            if (contentValues.containsKey(KEY_FAVORITE))
+                githubUser.favorite = contentValues.getAsBoolean(KEY_FAVORITE)
+
+            return githubUser
         }
 
         fun fromCursor(cursor: Cursor): GithubUser {

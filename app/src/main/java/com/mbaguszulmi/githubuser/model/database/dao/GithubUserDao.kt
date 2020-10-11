@@ -11,14 +11,17 @@ interface GithubUserDao {
     fun findAll(): Cursor
 
     @Query("SELECT * FROM github_user WHERE id = :id")
-    fun find(id: Int): GithubUser
+    fun find(id: Int): Cursor
+
+    @Query("SELECT * FROM github_user WHERE id = :id")
+    fun findGithubUser(id: Int): GithubUser
 
     @Insert(onConflict = REPLACE)
-    fun insert(vararg users: GithubUser)
+    fun insert(vararg users: GithubUser): Long
 
     @Update
-    fun update(user: GithubUser)
+    fun update(user: GithubUser): Int
 
     @Delete
-    fun delete(user: GithubUser)
+    fun delete(user: GithubUser): Int
 }
