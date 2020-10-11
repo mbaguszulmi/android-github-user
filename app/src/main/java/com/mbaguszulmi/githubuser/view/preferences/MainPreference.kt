@@ -2,7 +2,6 @@ package com.mbaguszulmi.githubuser.view.preferences
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.preference.CheckBoxPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.mbaguszulmi.githubuser.R

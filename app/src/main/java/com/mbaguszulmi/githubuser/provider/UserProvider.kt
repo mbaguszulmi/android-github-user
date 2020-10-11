@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import com.mbaguszulmi.githubuser.App
 import com.mbaguszulmi.githubuser.model.database.AppDb
 import com.mbaguszulmi.githubuser.model.database.dao.GithubUserDao
 import com.mbaguszulmi.githubuser.model.database.entities.GithubUser

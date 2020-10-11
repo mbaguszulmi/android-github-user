@@ -1,7 +1,7 @@
 package com.mbaguszulmi.githubuser.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.mbaguszulmi.githubuser.R
 import com.mbaguszulmi.githubuser.view.preferences.MainPreference
 
