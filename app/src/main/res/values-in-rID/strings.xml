@@ -20,4 +20,11 @@
     <string name="favorite_users">Pengguna Favorit</string>
     <string name="settings">Pengaturan</string>
     <string name="no_users_in_favorite">Tidak ada pengguna di daftar favorit</string>
+    <string name="preference_reminder_title">Pengingat di 9.00 pagi</string>
+    <string name="key_sp_alarm">sp_alarm</string>
+    <string name="reminder_time_value">09:00</string>
+    <string name="notif_reminder_title">Pengingat</string>
+    <string name="notif_reminder_message">Jangan lupa cek aplikasi Github User</string>
+    <string name="alarm_created_message">Alarm berhasil dibuat</string>
+    <string name="alarm_disabled_message">Alarm berhasil dimatikan</string>
 </resources>

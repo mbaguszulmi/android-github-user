@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <SwitchPreference
+        android:icon="@drawable/ic_baseline_notifications_active_24"
+        android:defaultValue="false"
+        android:key="@string/key_sp_alarm"
+        android:title="@string/preference_reminder_title" />
+
+</androidx.preference.PreferenceScreen>
