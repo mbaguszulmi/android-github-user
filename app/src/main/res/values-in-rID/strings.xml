@@ -15,4 +15,6 @@
     <string name="tab_followers">Pengikut</string>
     <string name="tab_following">Mengikuti</string>
     <string name="username_content">\@%1$s</string>
+    <string name="add_to_favorite">Tambah favorit</string>
+    <string name="remote_from_favorite">Hapus Favorit</string>
 </resources>

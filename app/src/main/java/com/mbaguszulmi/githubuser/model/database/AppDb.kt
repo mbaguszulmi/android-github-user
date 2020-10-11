@@ -8,8 +8,8 @@ import com.mbaguszulmi.githubuser.model.database.dao.GithubUserDao
 import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 
 @Database(
-    entities = [GithubUser::class],
-    version = 1
+    version = 1,
+    entities = [GithubUser::class]
 )
 abstract class AppDb: RoomDatabase() {
     abstract fun githubUserDao(): GithubUserDao

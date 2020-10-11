@@ -2,10 +2,12 @@ package com.mbaguszulmi.githubuser.provider
 
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.content.Context
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
 import com.mbaguszulmi.githubuser.App
+import com.mbaguszulmi.githubuser.model.database.AppDb
 import com.mbaguszulmi.githubuser.model.database.dao.GithubUserDao
 import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 
@@ -24,7 +26,7 @@ class UserProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        githubUserDao = App.appDb.githubUserDao()
+        githubUserDao = AppDb.getInstance(context as Context).githubUserDao()
         return true
     }
 
@@ -67,13 +69,17 @@ class UserProvider : ContentProvider() {
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
 
-        return when (USER_ID) {
+        val deleted =  when (USER_ID) {
             sUriMatcher.match(uri) -> {
                 val githubUser = githubUserDao.findGithubUser(uri.lastPathSegment!!.toInt())
-                return githubUserDao.delete(githubUser);
+                githubUserDao.delete(githubUser)
             }
             else -> 0
         }
+
+        context?.contentResolver?.notifyChange(GithubUser.CONTENT_URI, null)
+
+        return deleted
     }
 
     override fun getType(uri: Uri): String? {

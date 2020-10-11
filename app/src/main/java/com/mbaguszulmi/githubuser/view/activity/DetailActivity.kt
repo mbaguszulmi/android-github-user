@@ -3,6 +3,7 @@ package com.mbaguszulmi.githubuser.view.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ import kotlin.math.round
 class DetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_GITHUB_USER = "__extra_github_user__"
+        private const val TAG = "DetailActivity"
     }
 
     private lateinit var user: GithubUser
@@ -35,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
         user = intent.getParcelableExtra(EXTRA_GITHUB_USER) as GithubUser
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         mainViewModel.setUser(user)
+        mainViewModel.setFavorite(false)
 
         initView()
     }
@@ -76,6 +79,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         mainViewModel.getUserLiveData().observe(this, Observer {
+            user = it
             supportActionBar?.title = it.name
 
             tv_full_name.text = it.name
@@ -111,6 +115,19 @@ class DetailActivity : AppCompatActivity() {
             tab, position ->
             tab.text = getString(tabTitles[position])
         }.attach()
+
+        mainViewModel.registerFavoriteWatcher(this, user)
+        mainViewModel.updateFavorite(this, user)
+
+        mainViewModel.isFavoriteLiveData().observe(this, Observer {
+            if (it) btn_toggle_favorite.text = getString(R.string.remote_from_favorite)
+            else btn_toggle_favorite.text = getString(R.string.add_to_favorite)
+        })
+
+        btn_toggle_favorite.setOnClickListener {
+            Log.d(TAG, "btn_toggle_favorite on Click ${user.toString()}")
+            mainViewModel.toggleFavorite(this, user)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

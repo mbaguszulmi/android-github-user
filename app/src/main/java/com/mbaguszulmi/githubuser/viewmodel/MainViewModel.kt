@@ -1,5 +1,10 @@
 package com.mbaguszulmi.githubuser.viewmodel
 
+import android.content.Context
+import android.database.ContentObserver
+import android.os.Handler
+import android.os.HandlerThread
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,11 +12,19 @@ import com.mbaguszulmi.githubuser.api.GithubAPI
 import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 import com.mbaguszulmi.githubuser.model.network.UserSearchResponse
 import com.mbaguszulmi.githubuser.view.adapter.GithubUserListAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel : ViewModel() {
+    companion object {
+        private const val TAG = "MainViewModel"
+    }
+
     private val isLoadingUsers = MutableLiveData<Boolean>()
     private var isLoadingFollowers = false
     private var isLoadingFollowing = false
@@ -23,6 +36,7 @@ class MainViewModel : ViewModel() {
     private val user = MutableLiveData<GithubUser>()
     private val followers = MutableLiveData<MutableList<GithubUser>>()
     private val following = MutableLiveData<MutableList<GithubUser>>()
+    private val favorite = MutableLiveData<Boolean>()
 
     fun init() {
         isLoadingUsers.value = false
@@ -31,6 +45,7 @@ class MainViewModel : ViewModel() {
         followers.value = ArrayList()
         following.value = ArrayList()
         query.value = ""
+        favorite.value = false
     }
 
     fun fetchAllUsers() {
@@ -170,6 +185,8 @@ class MainViewModel : ViewModel() {
 
     fun isLoadingDetailLiveData() : LiveData<Boolean> = isLoadingDetail
 
+    fun isLoadingDetail(): Boolean = isLoadingDetail.value!!
+
     fun getUserListLiveData(): LiveData<MutableList<GithubUser>> = users
 
     fun setQuery(q: String) {
@@ -190,5 +207,50 @@ class MainViewModel : ViewModel() {
 
     fun setUser(user: GithubUser) {
         this.user.value = user
+    }
+
+    fun isFavoriteLiveData(): LiveData<Boolean> = favorite
+
+    fun setFavorite(favorite: Boolean) {
+        this.favorite.value = favorite
+    }
+
+    fun registerFavoriteWatcher(context: Context, user: GithubUser) {
+        val handlerThread = HandlerThread("DataObserver")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
+        context.contentResolver.registerContentObserver(GithubUser.CONTENT_URI, true,
+            object: ContentObserver(handler) {
+                override fun onChange(selfChange: Boolean) {
+                    updateFavorite(context, user)
+                }
+            })
+    }
+
+    fun updateFavorite(context: Context, user: GithubUser) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val differedUser = async(Dispatchers.IO) {
+                val cursor = context.contentResolver?.query(user.getUriWithId(), null, null, null, null)
+                val githubUser = cursor?.let { GithubUser.fromCursor(it) }
+                cursor?.close()
+                githubUser
+            }
+            val userNew = differedUser.await()
+            Log.d(TAG, "updateFavorite")
+            favorite.value = userNew != null
+        }
+    }
+
+    fun toggleFavorite(context: Context, user: GithubUser) {
+        if (!isLoadingDetail()) {
+            val isFavorite = favorite.value!!
+
+            if (isFavorite) {
+                context.contentResolver.delete(user.getUriWithId(), null, null)
+            }
+            else {
+                context.contentResolver.insert(GithubUser.CONTENT_URI, user.toContentValues())
+            }
+        }
     }
 }

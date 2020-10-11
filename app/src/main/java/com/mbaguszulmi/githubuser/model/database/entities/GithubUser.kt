@@ -11,7 +11,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "github_user")
+@Entity(tableName = "favorite_user")
 data class GithubUser(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
@@ -26,8 +26,7 @@ data class GithubUser(
     var bio: String? = "",
     @SerializedName("avatar_url")
     @ColumnInfo(name = "avatar_url")
-    var avatarUrl: String?,
-    var favorite: Boolean = false
+    var avatarUrl: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -45,6 +44,7 @@ data class GithubUser(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
         parcel.writeString(name)
         parcel.writeString(username)
         parcel.writeInt(repoCount)
@@ -58,19 +58,37 @@ data class GithubUser(
         return 0
     }
 
+    fun toContentValues(): ContentValues {
+        val values = ContentValues()
+        with(values) {
+            put(KEY_ID, id)
+            put(KEY_NAME, name)
+            put(KEY_USERNAME, username)
+            put(KEY_REPO_COUNT, repoCount)
+            put(KEY_FOLLOWERS, followers)
+            put(KEY_FOLLOWING, following)
+            put(KEY_BIO, bio)
+            put(KEY_AVATAR_URL, avatarUrl)
+        }
+        return values
+    }
+
+    fun getUriWithId(): Uri {
+        return Uri.parse("$CONTENT_URI/$id")
+    }
+
     companion object CREATOR : Parcelable.Creator<GithubUser> {
-        const val KEY_ID = "id"
-        const val KEY_NAME = "name"
-        const val KEY_USERNAME = "username"
-        const val KEY_REPO_COUNT = "repo_count"
-        const val KEY_FOLLOWERS = "followers"
-        const val KEY_FOLLOWING = "following"
-        const val KEY_BIO = "bio"
-        const val KEY_AVATAR_URL = "avatar_url"
-        const val KEY_FAVORITE = "favorite"
+        private const val KEY_ID = "id"
+        private const val KEY_NAME = "name"
+        private const val KEY_USERNAME = "username"
+        private const val KEY_REPO_COUNT = "repo_count"
+        private const val KEY_FOLLOWERS = "followers"
+        private const val KEY_FOLLOWING = "following"
+        private const val KEY_BIO = "bio"
+        private const val KEY_AVATAR_URL = "avatar_url"
         const val AUTHORITY = "com.mbaguszulmi.githubuser"
         const val TABLE_NAME = "github_user"
-        const val SCHEME = "content"
+        private const val SCHEME = "content"
         val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
             .authority(AUTHORITY)
             .appendPath(TABLE_NAME)
@@ -85,7 +103,7 @@ data class GithubUser(
         }
 
         fun fromContentValues(contentValues: ContentValues?): GithubUser {
-            val githubUser = GithubUser(0, null, null, 0, 0, 0, null, null, false)
+            val githubUser = GithubUser(0, null, null, 0, 0, 0, null, null)
 
             if (contentValues == null) return githubUser
 
@@ -113,26 +131,24 @@ data class GithubUser(
             if (contentValues.containsKey(KEY_AVATAR_URL))
                 githubUser.avatarUrl = contentValues.getAsString(KEY_AVATAR_URL)
 
-            if (contentValues.containsKey(KEY_FAVORITE))
-                githubUser.favorite = contentValues.getAsBoolean(KEY_FAVORITE)
-
             return githubUser
         }
 
-        fun fromCursor(cursor: Cursor): GithubUser {
-            val githubUser = GithubUser(0, null, null, 0, 0, 0, null, null, false)
+        fun fromCursor(cursor: Cursor): GithubUser? {
+            var githubUser: GithubUser? = GithubUser(0, null, null, 0, 0, 0, null, null)
 
             cursor.apply {
-                moveToFirst()
-                githubUser.id = getInt(getColumnIndexOrThrow(KEY_ID))
-                githubUser.name = getString(getColumnIndexOrThrow(KEY_NAME))
-                githubUser.username = getString(getColumnIndexOrThrow(KEY_USERNAME))
-                githubUser.repoCount = getInt(getColumnIndexOrThrow(KEY_REPO_COUNT))
-                githubUser.followers = getInt(getColumnIndexOrThrow(KEY_FOLLOWERS))
-                githubUser.following = getInt(getColumnIndexOrThrow(KEY_FOLLOWING))
-                githubUser.bio = getString(getColumnIndexOrThrow(KEY_BIO))
-                githubUser.avatarUrl = getString(getColumnIndexOrThrow(KEY_AVATAR_URL))
-                githubUser.favorite = getInt(getColumnIndexOrThrow(KEY_FAVORITE)) == 1
+                if (moveToFirst()) {
+                    githubUser?.id = getInt(getColumnIndexOrThrow(KEY_ID))
+                    githubUser?.name = getString(getColumnIndexOrThrow(KEY_NAME))
+                    githubUser?.username = getString(getColumnIndexOrThrow(KEY_USERNAME))
+                    githubUser?.repoCount = getInt(getColumnIndexOrThrow(KEY_REPO_COUNT))
+                    githubUser?.followers = getInt(getColumnIndexOrThrow(KEY_FOLLOWERS))
+                    githubUser?.following = getInt(getColumnIndexOrThrow(KEY_FOLLOWING))
+                    githubUser?.bio = getString(getColumnIndexOrThrow(KEY_BIO))
+                    githubUser?.avatarUrl = getString(getColumnIndexOrThrow(KEY_AVATAR_URL))
+                }
+                else githubUser = null
             }
 
             return githubUser
@@ -151,9 +167,8 @@ data class GithubUser(
                     val following = getInt(getColumnIndexOrThrow(KEY_FOLLOWING))
                     val bio = getString(getColumnIndexOrThrow(KEY_BIO))
                     val avatarUrl = getString(getColumnIndexOrThrow(KEY_AVATAR_URL))
-                    val favorite = getInt(getColumnIndexOrThrow(KEY_FAVORITE)) == 1
 
-                    githubUsers.add(GithubUser(id, name, username, repoCount, followers, following, bio, avatarUrl, favorite))
+                    githubUsers.add(GithubUser(id, name, username, repoCount, followers, following, bio, avatarUrl))
                 }
             }
 

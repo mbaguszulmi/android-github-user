@@ -7,17 +7,17 @@ import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 
 @Dao
 interface GithubUserDao {
-    @Query("SELECT * FROM github_user")
+    @Query("SELECT * FROM favorite_user")
     fun findAll(): Cursor
 
-    @Query("SELECT * FROM github_user WHERE id = :id")
+    @Query("SELECT * FROM favorite_user WHERE id = :id")
     fun find(id: Int): Cursor
 
-    @Query("SELECT * FROM github_user WHERE id = :id")
+    @Query("SELECT * FROM favorite_user WHERE id = :id")
     fun findGithubUser(id: Int): GithubUser
 
     @Insert(onConflict = REPLACE)
-    fun insert(vararg users: GithubUser): Long
+    fun insert(user: GithubUser): Long
 
     @Update
     fun update(user: GithubUser): Int

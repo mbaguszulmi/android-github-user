@@ -27,10 +27,11 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_avatar"
                     app:layout_constraintTop_toTopOf="@+id/iv_avatar">
 
@@ -71,8 +72,8 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:orientation="vertical"
-                            android:paddingEnd="8dp"
-                            android:paddingStart="0dp">
+                            android:paddingStart="0dp"
+                            android:paddingEnd="8dp">
 
                             <TextView
                                 android:id="@+id/tv_repo_count"
@@ -157,15 +158,28 @@
 
                 <Button
                     android:id="@+id/btn_visit"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:backgroundTint="@color/colorAccent"
                     android:text="@string/visit_on_github"
                     android:textColor="@color/colorTextWhite"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_toggle_favorite"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_bio" />
+
+                <Button
+                    android:id="@+id/btn_toggle_favorite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="@string/add_to_favorite"
+                    android:textColor="@color/colorTextWhite"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn_visit"
                     app:layout_constraintTop_toBottomOf="@+id/tv_bio" />
 
                 <com.google.android.material.tabs.TabLayout
