@@ -1,5 +1,6 @@
 package com.mbaguszulmi.githubuser.model.database.dao
 
+import android.database.Cursor
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
@@ -7,7 +8,7 @@ import com.mbaguszulmi.githubuser.model.database.entities.GithubUser
 @Dao
 interface GithubUserDao {
     @Query("SELECT * FROM github_user")
-    fun findAll(): List<GithubUser>
+    fun findAll(): Cursor
 
     @Query("SELECT * FROM github_user WHERE id = :id")
     fun find(id: Int): GithubUser
