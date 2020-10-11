@@ -78,8 +78,8 @@ data class GithubUser(
         private const val KEY_FOLLOWING = "following"
         private const val KEY_BIO = "bio"
         private const val KEY_AVATAR_URL = "avatar_url"
-        const val AUTHORITY = "com.mbaguszulmi.githubuser"
-        const val TABLE_NAME = "github_user"
+        private const val AUTHORITY = "com.mbaguszulmi.githubuser"
+        private const val TABLE_NAME = "github_user"
         private const val SCHEME = "content"
         val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
             .authority(AUTHORITY)
@@ -92,38 +92,6 @@ data class GithubUser(
 
         override fun newArray(size: Int): Array<GithubUser?> {
             return arrayOfNulls(size)
-        }
-
-        fun fromContentValues(contentValues: ContentValues?): GithubUser {
-            val githubUser = GithubUser(0, null, null, 0, 0, 0, null, null)
-
-            if (contentValues == null) return githubUser
-
-            if (contentValues.containsKey(KEY_ID))
-                githubUser.id = contentValues.getAsInteger(KEY_ID)
-
-            if (contentValues.containsKey(KEY_NAME))
-                githubUser.name = contentValues.getAsString(KEY_NAME)
-
-            if (contentValues.containsKey(KEY_USERNAME))
-                githubUser.username = contentValues.getAsString(KEY_USERNAME)
-
-            if (contentValues.containsKey(KEY_REPO_COUNT))
-                githubUser.repoCount = contentValues.getAsInteger(KEY_REPO_COUNT)
-
-            if (contentValues.containsKey(KEY_FOLLOWERS))
-                githubUser.followers = contentValues.getAsInteger(KEY_FOLLOWERS)
-
-            if (contentValues.containsKey(KEY_FOLLOWING))
-                githubUser.following = contentValues.getAsInteger(KEY_FOLLOWING)
-
-            if (contentValues.containsKey(KEY_BIO))
-                githubUser.bio = contentValues.getAsString(KEY_BIO)
-
-            if (contentValues.containsKey(KEY_AVATAR_URL))
-                githubUser.avatarUrl = contentValues.getAsString(KEY_AVATAR_URL)
-
-            return githubUser
         }
 
         fun fromCursor(cursor: Cursor): GithubUser? {

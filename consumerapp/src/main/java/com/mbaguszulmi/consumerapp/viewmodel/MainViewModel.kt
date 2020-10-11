@@ -139,7 +139,7 @@ class MainViewModel : ViewModel() {
 
     fun isLoadingDetailLiveData() : LiveData<Boolean> = isLoadingDetail
 
-    fun isLoadingDetail(): Boolean = isLoadingDetail.value!!
+    private fun isLoadingDetail(): Boolean = isLoadingDetail.value!!
 
     fun getUserListLiveData(): LiveData<MutableList<GithubUser>> = users
 
