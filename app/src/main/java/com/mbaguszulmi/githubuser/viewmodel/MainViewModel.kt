@@ -5,6 +5,7 @@ import android.database.ContentObserver
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -215,8 +216,41 @@ class MainViewModel : ViewModel() {
         this.favorite.value = favorite
     }
 
+    fun registerFavoriteListWatcher(context: AppCompatActivity) {
+        val handlerThread = HandlerThread("UserListObserver")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
+        context.contentResolver.registerContentObserver(GithubUser.CONTENT_URI, true,
+            object: ContentObserver(handler) {
+                override fun onChange(selfChange: Boolean) {
+                    loadUserAsync(context)
+                    context.runOnUiThread {
+                        isLoadingUsers.value = true
+                    }
+                }
+            })
+    }
+
+    fun loadUserAsync(context: Context) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val differedUsers = async (Dispatchers.IO) {
+                val cursor = context.contentResolver?.query(GithubUser.CONTENT_URI, null, null, null, null)
+                val githubUserList = cursor?.let { GithubUser.fromCursorToList(it) }
+                cursor?.close()
+                githubUserList
+            }
+
+            var userList = differedUsers.await()
+            if (userList == null) {
+                userList = ArrayList()
+            }
+            isLoadingUsers.value = false
+            users.value = userList
+        }
+    }
+
     fun registerFavoriteWatcher(context: Context, user: GithubUser) {
-        val handlerThread = HandlerThread("DataObserver")
+        val handlerThread = HandlerThread("UserObserver")
         handlerThread.start()
         val handler = Handler(handlerThread.looper)
         context.contentResolver.registerContentObserver(GithubUser.CONTENT_URI, true,

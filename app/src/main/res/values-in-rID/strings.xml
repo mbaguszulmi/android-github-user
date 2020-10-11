@@ -17,4 +17,7 @@
     <string name="username_content">\@%1$s</string>
     <string name="add_to_favorite">Tambah favorit</string>
     <string name="remote_from_favorite">Hapus Favorit</string>
+    <string name="favorite_users">Pengguna Favorit</string>
+    <string name="settings">Pengaturan</string>
+    <string name="no_users_in_favorite">Tidak ada pengguna di daftar favorit</string>
 </resources>
